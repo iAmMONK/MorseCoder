@@ -1,16 +1,16 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("android.extensions")
+    id(BuildPlugins.androidApplication)
+    kotlin(BuildPlugins.kotlinAndroid)
+    kotlin(BuildPlugins.kotlinAndroidExtensions)
 }
 
 android {
-    buildToolsVersion("30.0.2")
-    compileSdkVersion(30)
+    buildToolsVersion(AndroidSdk.buildTools)
+    compileSdkVersion(AndroidSdk.compile)
     defaultConfig {
         applicationId = "com.programming.monk.morsecodetranslator"
-        minSdkVersion(16)
-        targetSdkVersion(30)
+        minSdkVersion(AndroidSdk.min)
+        targetSdkVersion(AndroidSdk.target)
         versionCode = 20
         versionName = "2.0"
         multiDexEnabled = true
@@ -31,15 +31,13 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(kotlin("stdlib-jdk8", "1.4.20"))
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.1")
-    implementation("com.google.android.gms:play-services-ads:19.5.0")
-    implementation("androidx.core:core-ktx:1.3.2")
+    implementation(Libraries.kotlinStdLib)
+    implementation(Libraries.appCompat)
+    implementation(Libraries.material)
+    implementation(Libraries.ads)
+    implementation(Libraries.core)
 }
 repositories {
     mavenCentral()
     google()
 }
-
-fun getExt(name: String) = project.rootProject.ext[name]
