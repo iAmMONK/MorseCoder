@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
+    kotlin("android")
+    kotlin("android.extensions")
 }
 
 android {
@@ -18,8 +18,8 @@ android {
 
     buildTypes {
         getByName("release") {
-//            isMinifyEnabled = true
-//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
