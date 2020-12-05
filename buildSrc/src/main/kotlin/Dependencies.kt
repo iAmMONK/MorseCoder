@@ -24,10 +24,16 @@ object AndroidSdk {
 object Libraries {
     private object Versions {
         const val ads = "19.5.0"
+        const val timber = "4.7.1"
+        const val glide = "4.11.0"
     }
 
     const val kotlinStdLib     = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     const val ads              = "com.google.android.gms:play-services-ads:${Versions.ads}"
+
+    const val timber           = "com.jakewharton.timber:timber:${Versions.timber}"
+    const val glide            = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val glideKtx         = "com.github.bumptech.glide:compiler:${Versions.glide}"
 }
 
 object AndroidLibraries {
@@ -41,20 +47,20 @@ object AndroidLibraries {
         const val lifeCycle = "2.2.0"
     }
 
-    const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-    const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
-    const val navigationModules = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigation}"
-    const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
+    const val navigation            = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigationUi          = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    const val navigationModules     = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigation}"
+    const val fragment              = "androidx.fragment:fragment-ktx:${Versions.fragment}"
 
-    const val appCompat        = "androidx.appcompat:appcompat:${Versions.jetpack}"
-    const val core             = "androidx.core:core-ktx:${Versions.core}"
-    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
-    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
-    const val liveDataRx = "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifeCycle}"
-    const val liveDataKapt = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
+    const val appCompat             = "androidx.appcompat:appcompat:${Versions.jetpack}"
+    const val core                  = "androidx.core:core-ktx:${Versions.core}"
+    const val viewModel             = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
+    const val liveData              = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
+    const val liveDataRx            = "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifeCycle}"
+    const val liveDataKapt          = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
 
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    const val material         = "com.google.android.material:material:${Versions.material}"
+    const val constraintLayout      = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val material              = "com.google.android.material:material:${Versions.material}"
 }
 
 object TestLibraries {
