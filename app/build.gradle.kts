@@ -32,10 +32,10 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Libraries.kotlinStdLib)
-    implementation(Libraries.appCompat)
-    implementation(Libraries.material)
     implementation(Libraries.ads)
-    implementation(Libraries.core)
+    implementation(AndroidLibraries.core)
+    implementation(AndroidLibraries.appCompat)
+    implementation(AndroidLibraries.material)
 }
 repositories {
     mavenCentral()
