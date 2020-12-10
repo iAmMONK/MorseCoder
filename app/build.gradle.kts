@@ -36,6 +36,7 @@ dependencies {
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
     implementation(AndroidLibraries.material)
+    implementation(AndroidLibraries.constraintLayout)
 }
 repositories {
     mavenCentral()
