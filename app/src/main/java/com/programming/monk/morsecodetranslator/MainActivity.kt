@@ -3,6 +3,7 @@ package com.programming.monk.morsecodetranslator
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -15,26 +16,54 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.programming.monk.morsecodetranslator.databinding.MainBinding
 import com.programming.monk.morsecodetranslator.operations.MorseCoder
-import kotlinx.android.synthetic.main.main.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: MainBinding
+
     private val morseCoder = MorseCoder()
-    private var alertVisibility = false
     private var operationValue = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
-//        setSupportActionBar(toolbar)
-//
-//        ibSwap.setOnClickListener(this)
-//        btnCopy.setOnClickListener(this)
-//        btnCodeIt.setOnClickListener(this)
-//        ibAlert.setOnClickListener(this)
+        binding = MainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
-//        val adRequest = AdRequest.Builder().build()
-//        adView.loadAd(adRequest)
+        binding.copyButton.setOnClickListener {
+            (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
+                it.setPrimaryClip(ClipData.newPlainText("Message", morseCoder.codedMessage))
+                Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.shareButton.setOnClickListener {
+            if (morseCoder.codedMessage != "") {
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(Intent.EXTRA_TEXT, morseCoder.codedMessage)
+                sendIntent.type = "text/plain"
+                startActivity(Intent.createChooser(sendIntent, getString(R.string.share_with_title)))
+            } else Toast.makeText(this, R.string.share_empty, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.inputCard.setOnClickListener {
+            binding.messageInput.requestFocus()
+            binding.messageInput.post {
+                (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                        .toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            }
+        }
+
+        binding.outputCard.setOnClickListener {
+            (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
+                it.setPrimaryClip(ClipData.newPlainText("Message", morseCoder.codedMessage))
+                Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 //
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {

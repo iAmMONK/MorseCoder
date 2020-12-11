@@ -1,7 +1,6 @@
 plugins {
     id(BuildPlugins.androidApplication)
     kotlin(BuildPlugins.kotlinAndroid)
-    kotlin(BuildPlugins.kotlinAndroidExtensions)
 }
 
 android {
@@ -16,6 +15,10 @@ android {
         multiDexEnabled = true
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -24,8 +27,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
-        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
