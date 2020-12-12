@@ -1,32 +1,23 @@
 package com.programming.monk.morsecodetranslator
 
-import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.programming.monk.morsecodetranslator.databinding.MainBinding
-import com.programming.monk.morsecodetranslator.operations.MorseCoder
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainBinding
 
-    private val morseCoder = MorseCoder()
-    private var operationValue = true
+    private val viewModel by viewModels<MainActivityViewModel> { MainActivityViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,16 +27,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.copyButton.setOnClickListener {
             (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
-                it.setPrimaryClip(ClipData.newPlainText("Message", morseCoder.codedMessage))
+                it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
                 Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.shareButton.setOnClickListener {
-            if (morseCoder.codedMessage != "") {
+            if (binding.messageOutput.text.isNotBlank()) {
                 val sendIntent = Intent()
                 sendIntent.action = Intent.ACTION_SEND
-                sendIntent.putExtra(Intent.EXTRA_TEXT, morseCoder.codedMessage)
+                sendIntent.putExtra(Intent.EXTRA_TEXT, binding.messageOutput.text)
                 sendIntent.type = "text/plain"
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share_with_title)))
             } else Toast.makeText(this, R.string.share_empty, Toast.LENGTH_SHORT).show()
@@ -61,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.outputCard.setOnClickListener {
             (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
-                it.setPrimaryClip(ClipData.newPlainText("Message", morseCoder.codedMessage))
+                it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
                 Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
             }
         }
@@ -77,5 +68,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.adView.loadAd(AdRequest.Builder().build())
+
+        subscribeUi()
+    }
+
+    private fun subscribeUi() {
+
     }
 }

@@ -30,6 +30,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
         sourceCompatibility = JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -38,8 +42,11 @@ dependencies {
     implementation(Libraries.ads)
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
+    implementation(AndroidLibraries.activityKtx)
     implementation(AndroidLibraries.material)
     implementation(AndroidLibraries.constraintLayout)
+    implementation(AndroidLibraries.liveData)
+    implementation(AndroidLibraries.viewModel)
 }
 repositories {
     mavenCentral()

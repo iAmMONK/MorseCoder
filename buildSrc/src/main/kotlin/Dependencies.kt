@@ -45,12 +45,14 @@ object AndroidLibraries {
         const val constraintLayout = "2.0.4"
         const val fragment = "1.2.5"
         const val lifeCycle = "2.2.0"
+        const val activityKtx = "1.1.0"
     }
 
     const val navigation            = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val navigationUi          = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val navigationModules     = "androidx.navigation:navigation-dynamic-features-fragment:${Versions.navigation}"
     const val fragment              = "androidx.fragment:fragment-ktx:${Versions.fragment}"
+    const val activityKtx           = "androidx.activity:activity-ktx:${Versions.activityKtx}"
 
     const val appCompat             = "androidx.appcompat:appcompat:${Versions.jetpack}"
     const val core                  = "androidx.core:core-ktx:${Versions.core}"
