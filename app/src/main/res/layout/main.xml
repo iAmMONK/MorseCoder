@@ -110,16 +110,19 @@
                     android:layout_height="wrap_content"
                     android:minHeight="150dp">
 
-                    <EditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/message_input"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:background="@android:color/transparent"
                         android:hint="Enter your text here"
+                        android:textAlignment="gravity"
+                        android:gravity="top"
                         android:inputType="textMultiLine"
                         android:textColor="@color/colorOnColorless"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/delete_button"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatImageView

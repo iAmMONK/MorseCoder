@@ -14,20 +14,13 @@
             android:name=".MainActivity"
             android:label="Morse Coder"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateUnchanged">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".toolbar.AboutPage"
-            android:label="About"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".toolbar.MorsecodePage"
-            android:label="Morse Code"
-            android:theme="@style/AppTheme"/>
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5728034123668865~5552430430"/>

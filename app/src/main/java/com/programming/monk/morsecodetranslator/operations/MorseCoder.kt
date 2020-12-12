@@ -8,7 +8,7 @@ class MorseCoder {
     var errorExistence = false
         private set
 
-    fun codeToMorse(messageToCode: String): String {
+    suspend fun codeToMorse(messageToCode: String): String {
         codedMessage = ""
         errSymbols = ""
         errorExistence = false

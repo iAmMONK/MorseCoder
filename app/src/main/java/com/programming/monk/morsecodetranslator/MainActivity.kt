@@ -6,17 +6,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.observe
 import com.google.android.gms.ads.AdRequest
 import com.programming.monk.morsecodetranslator.databinding.MainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: MainBinding
 
+    private lateinit var binding: MainBinding
     private val viewModel by viewModels<MainActivityViewModel> { MainActivityViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,10 @@ class MainActivity : AppCompatActivity() {
                 it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
                 Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.deleteButton.setOnClickListener {
+            binding.messageInput.text = null
         }
 
         binding.shareButton.setOnClickListener {
@@ -67,12 +75,18 @@ class MainActivity : AppCompatActivity() {
             binding.outputLabel.text = holder
         }
 
+        binding.messageInput.doOnTextChanged { text, _, _, _ ->
+            viewModel.onInputTextChanged(text.toString())
+        }
+
         binding.adView.loadAd(AdRequest.Builder().build())
 
         subscribeUi()
     }
 
     private fun subscribeUi() {
-
+        viewModel.output.observe(this) {
+            binding.messageOutput.text = it
+        }
     }
 }
