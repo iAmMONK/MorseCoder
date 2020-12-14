@@ -4,15 +4,14 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.observe
 import com.google.android.gms.ads.AdRequest
@@ -73,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             val holder = binding.inputLabel.text
             binding.inputLabel.text = binding.outputLabel.text
             binding.outputLabel.text = holder
+            viewModel.onModeSwitched(binding.messageInput.text.toString())
         }
 
         binding.messageInput.doOnTextChanged { text, _, _, _ ->
@@ -87,6 +87,12 @@ class MainActivity : AppCompatActivity() {
     private fun subscribeUi() {
         viewModel.output.observe(this) {
             binding.messageOutput.text = it
+        }
+
+        viewModel.outputHasSpacing.observe(this) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.messageOutput.letterSpacing = if (it) .3f else 0f
+            }
         }
     }
 }
