@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.observe
 import com.google.android.gms.ads.AdRequest
 import com.programming.monk.morsecodetranslator.databinding.MainBinding
 
@@ -91,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.outputHasSpacing.observe(this) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.messageInput.letterSpacing = if(it) 0f else .3f
                 binding.messageOutput.letterSpacing = if (it) .3f else 0f
             }
         }
