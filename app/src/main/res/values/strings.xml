@@ -6,7 +6,7 @@
     <string name="morse_label">Morse</string>
     <string name="text_label">Text</string>
     <string name="btn_translate">Translate</string>
-    <string name="copied_to_clipboard_message">Copied to Clipboard !</string>
+    <string name="copied_to_clipboard_message">Copied !</string>
     <string name="empty_error_message">You did not enter anything</string>
     <string name="contact_us_label">Contact us: monkmoldova@gmail.com</string>
     <string name="error_hint">Click ME!</string>

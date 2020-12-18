@@ -1,121 +1,61 @@
 package com.programming.monk.morsecodetranslator.operations
 
 class MorseCoder {
-    var codedMessage = ""
-        private set
-    var errSymbols: String? = null
-        private set
-    var errorExistence = false
-        private set
+    private val encodingMap = mapOf(
+            'a' to ".-",
+            'b' to "-...",
+            'c' to "-.-.",
+            'd' to "-..",
+            'e' to ".",
+            'f' to "..-.",
+            'g' to "--.",
+            'h' to "....",
+            'i' to "..",
+            'j' to ".---",
+            'k' to "-.-",
+            'l' to ".-..",
+            'm' to "--",
+            'n' to "-.",
+            'o' to "---",
+            'p' to ".--.",
+            'q' to "--.-",
+            'r' to ".-.",
+            's' to "...",
+            't' to "-",
+            'u' to "..-",
+            'v' to "...-",
+            'w' to ".--",
+            'x' to "-..-",
+            'y' to "-.--",
+            'z' to "--..",
+            '1' to ".----",
+            '2' to "..---",
+            '3' to "...--",
+            '4' to "....-",
+            '5' to ".....",
+            '6' to "-....",
+            '7' to "--...",
+            '8' to "---..",
+            '9' to "----.",
+            '0' to "-----",
+            ' ' to "/"
+    )
 
-    fun codeToMorse(messageToCode: String): String {
-        codedMessage = ""
-        errSymbols = ""
-        errorExistence = false
-        messageToCode.forEach {
-            when (it) {
-                'a' -> codedMessage = "$codedMessage.- "
-                'b' -> codedMessage = "$codedMessage-... "
-                'c' -> codedMessage = "$codedMessage-.-. "
-                'd' -> codedMessage = "$codedMessage-.. "
-                'e' -> codedMessage = "$codedMessage. "
-                'f' -> codedMessage = "$codedMessage..-. "
-                'g' -> codedMessage = "$codedMessage--. "
-                'h' -> codedMessage = "$codedMessage.... "
-                'i' -> codedMessage = "$codedMessage.. "
-                'j' -> codedMessage = "$codedMessage.--- "
-                'k' -> codedMessage = "$codedMessage-.- "
-                'l' -> codedMessage = "$codedMessage.-.. "
-                'm' -> codedMessage = "$codedMessage-- "
-                'n' -> codedMessage = "$codedMessage-. "
-                'o' -> codedMessage = "$codedMessage--- "
-                'p' -> codedMessage = "$codedMessage.--. "
-                'q' -> codedMessage = "$codedMessage--.- "
-                'r' -> codedMessage = "$codedMessage.-. "
-                's' -> codedMessage = "$codedMessage... "
-                't' -> codedMessage = "$codedMessage- "
-                'u' -> codedMessage = "$codedMessage..- "
-                'v' -> codedMessage = "$codedMessage...- "
-                'w' -> codedMessage = "$codedMessage.-- "
-                'x' -> codedMessage = "$codedMessage-..- "
-                'y' -> codedMessage = "$codedMessage-.-- "
-                'z' -> codedMessage = "$codedMessage--.. "
-                '1' -> codedMessage = "$codedMessage.---- "
-                '2' -> codedMessage = "$codedMessage..--- "
-                '3' -> codedMessage = "$codedMessage...-- "
-                '4' -> codedMessage = "$codedMessage....- "
-                '5' -> codedMessage = "$codedMessage..... "
-                '6' -> codedMessage = "$codedMessage-.... "
-                '7' -> codedMessage = "$codedMessage--... "
-                '8' -> codedMessage = "$codedMessage---.. "
-                '9' -> codedMessage = "$codedMessage----. "
-                '0' -> codedMessage = "$codedMessage----- "
-                ' ' -> {}
-                '\n' -> { }
-                else -> {
-                    errorExistence = true
-                    errSymbols += it
-                }
-            }
+    private val decodingMap = encodingMap.entries.associateBy({ it.value }) { it.key }
+
+    fun encode(input: String): String {
+        val output = StringBuilder()
+        input.trim().forEach {
+            encodingMap[it]?.let { code -> output.append("$code ") }
         }
-        return codedMessage
+        return output.toString()
     }
 
-    fun decodeFromMorse(messageToCode: String): String {
-        var message = messageToCode
-        message = "$message "
-        codedMessage = ""
-        errSymbols = ""
-        errorExistence = false
-        message.split(' ').forEach {
-            when (it) {
-                ".-" -> codedMessage += "a"
-                "-..." -> codedMessage += "b"
-                "-.-." -> codedMessage += "c"
-                "-.." -> codedMessage += "d"
-                "." -> codedMessage += "e"
-                "..-." -> codedMessage += "f"
-                "--." -> codedMessage += "g"
-                "...." -> codedMessage += "h"
-                ".." -> codedMessage += "i"
-                ".---" -> codedMessage += "j"
-                "-.-" -> codedMessage += "k"
-                ".-.." -> codedMessage += "l"
-                "--" -> codedMessage += "m"
-                "-." -> codedMessage += "n"
-                "---" -> codedMessage += "o"
-                ".--." -> codedMessage += "p"
-                "--.-" -> codedMessage += "q"
-                ".-." -> codedMessage += "r"
-                "..." -> codedMessage += "s"
-                "-" -> codedMessage += "t"
-                "..-" -> codedMessage += "u"
-                "...-" -> codedMessage += "v"
-                ".--" -> codedMessage += "w"
-                "-..-" -> codedMessage += "x"
-                "-.--" -> codedMessage += "y"
-                "--.." -> codedMessage += "z"
-                ".----" -> codedMessage += "1"
-                "..---" -> codedMessage += "2"
-                "...--" -> codedMessage += "3"
-                "....-" -> codedMessage += "4"
-                "....." -> codedMessage += "5"
-                "-...." -> codedMessage += "6"
-                "--..." -> codedMessage += "7"
-                "---.." -> codedMessage += "8"
-                "----." -> codedMessage += "9"
-                "-----" -> codedMessage += "0"
-                "/" -> codedMessage += " "
-                " " -> {
-                }
-                "" -> {
-                }
-                else -> {
-                    errorExistence = true
-                    errSymbols = "$errSymbols$it "
-                }
-            }
+    fun decode(input: String): String {
+        val output = StringBuilder()
+        input.trim().split(' ').forEach {
+            decodingMap[it.trim()]?.let { code -> output.append(code) }
         }
-        return codedMessage
+        return output.toString()
     }
 }

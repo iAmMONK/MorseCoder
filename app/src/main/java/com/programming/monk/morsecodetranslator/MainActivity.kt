@@ -1,144 +1,97 @@
 package com.programming.monk.morsecodetranslator
 
-import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.doOnTextChanged
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.programming.monk.morsecodetranslator.operations.MorseCoder
-import com.programming.monk.morsecodetranslator.toolbar.AboutPage
-import com.programming.monk.morsecodetranslator.toolbar.MorsecodePage
-import kotlinx.android.synthetic.main.content_main2.*
-import kotlinx.android.synthetic.main.main.*
+import com.programming.monk.morsecodetranslator.databinding.MainBinding
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
-    private val morseCoder = MorseCoder()
-    private var alertVisibility = false
-    private var operationValue = true
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: MainBinding
+    private val viewModel by viewModels<MainActivityViewModel> { MainActivityViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
-        setSupportActionBar(toolbar)
+        binding = MainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
-        ibSwap.setOnClickListener(this)
-        btnCopy.setOnClickListener(this)
-        btnCodeIt.setOnClickListener(this)
-        ibAlert.setOnClickListener(this)
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val i: Intent
-        when (item.itemId) {
-            R.id.tbMorseCode -> {
-                i = Intent(this, MorsecodePage::class.java)
-                startActivity(i)
+        binding.copyButton.setOnClickListener {
+            (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
+                it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
+                Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
             }
-            R.id.tbAbout -> {
-                i = Intent(this, AboutPage::class.java)
-                startActivity(i)
-            }
-            R.id.tbClear -> {
-                tvCodedMessage.text = ""
-                etMessageToCode.setText("")
-                Toast.makeText(applicationContext, R.string.clear_result_message, Toast.LENGTH_SHORT).show()
-            }
-            R.id.tbShare -> if (morseCoder.codedMessage != "") {
+        }
+
+        binding.deleteButton.setOnClickListener {
+            binding.messageInput.text = null
+        }
+
+        binding.shareButton.setOnClickListener {
+            if (binding.messageOutput.text.isNotBlank()) {
                 val sendIntent = Intent()
                 sendIntent.action = Intent.ACTION_SEND
-                sendIntent.putExtra(Intent.EXTRA_TEXT, morseCoder.codedMessage)
+                sendIntent.putExtra(Intent.EXTRA_TEXT, binding.messageOutput.text)
                 sendIntent.type = "text/plain"
                 startActivity(Intent.createChooser(sendIntent, getString(R.string.share_with_title)))
             } else Toast.makeText(this, R.string.share_empty, Toast.LENGTH_SHORT).show()
         }
-        return super.onOptionsItemSelected(item)
+
+        binding.inputCard.setOnClickListener {
+            binding.messageInput.requestFocus()
+            binding.messageInput.post {
+                (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                        .toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            }
+        }
+
+        binding.outputCard.setOnClickListener {
+            (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
+                it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
+                Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.translationCard.setOnClickListener {
+            binding.translationWayImage.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_swap).apply {
+                interpolator = AccelerateDecelerateInterpolator()
+            })
+
+            val holder = binding.inputLabel.text
+            binding.inputLabel.text = binding.outputLabel.text
+            binding.outputLabel.text = holder
+            viewModel.onModeSwitched(binding.messageInput.text.toString())
+        }
+
+        binding.messageInput.doOnTextChanged { text, _, _, _ ->
+            viewModel.onInputTextChanged(text.toString())
+        }
+
+        binding.adView.loadAd(AdRequest.Builder().build())
+
+        subscribeUi()
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btnCodeIt -> {
-                if (etMessageToCode.text.isNotBlank()) {
-                    Toast.makeText(applicationContext, R.string.empty_error_message, Toast.LENGTH_SHORT).show()
-                } else {
-                    if (alertVisibility) {
-                        ibAlert.visibility = View.INVISIBLE
-                        alertVisibility = false
-                    }
-                    if (operationValue) {
-                        tvCodedMessage.text = morseCoder.codeToMorse(etMessageToCode!!.text.toString().toLowerCase())
-                    } else {
-                        tvCodedMessage.text = morseCoder.decodeFromMorse(etMessageToCode!!.text.toString())
-                    }
-                    if (morseCoder.errorExistence) {
-                        ibAlert.visibility = View.VISIBLE
-                        alertVisibility = true
-                    }
-                    if (morseCoder.codedMessage != "") {
-                        btnCopy.visibility = View.VISIBLE
-                    } else btnCopy.visibility = View.INVISIBLE
-                }
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                val currentFocus = currentFocus
-                if (imm != null && currentFocus != null) {
-                    imm.hideSoftInputFromWindow(currentFocus.windowToken, 0)
-                }
-            }
-            R.id.ibAlert -> {
-                val builder = AlertDialog.Builder(this)
-                        .setIcon(R.mipmap.ic_alert_red_36dp)
-                        .setTitle("Unknown Symbols !")
-                        .setMessage("""
-    Could not recognize following symbols : 
-    ${morseCoder.errSymbols}
-    Make sure symbols are in table !
-    """.trimIndent())
-                        .setNeutralButton("OK !") { _, _ ->
-                            ibAlert!!.visibility = View.INVISIBLE
-                            alertVisibility = false
-                        }
-                val alertDialog = builder.create()
-                alertDialog.show()
-            }
-            R.id.btnCopy -> {
-                val clipboard = getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
-                if (clipboard != null) {
-                    val clip = ClipData.newPlainText("label", morseCoder.codedMessage)
-                    clipboard.setPrimaryClip(clip)
-                    Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
-                }
-            }
-            R.id.ibSwap -> {
-                ibSwap.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_swap))
-                tvLeft.startAnimation(AnimationUtils.loadAnimation(this, R.anim.text_to_left))
-                tvRight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.text_to_right))
-                if (operationValue) {
-                    tvLeft!!.setText(R.string.morse_label)
-                    tvRight!!.setText(R.string.text_label)
-                    etMessageToCode!!.setHint(R.string.morse_to_message)
-                } else {
-                    tvRight!!.setText(R.string.morse_label)
-                    tvLeft!!.setText(R.string.text_label)
-                    etMessageToCode!!.setHint(R.string.message_to_morse)
-                }
-                operationValue = !operationValue
+    private fun subscribeUi() {
+        viewModel.output.observe(this) {
+            binding.messageOutput.text = it
+        }
+
+        viewModel.outputHasSpacing.observe(this) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.messageInput.letterSpacing = if(it) 0f else .3f
+                binding.messageOutput.letterSpacing = if (it) .3f else 0f
             }
         }
     }

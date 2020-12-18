@@ -1,7 +1,6 @@
 plugins {
     id(BuildPlugins.androidApplication)
     kotlin(BuildPlugins.kotlinAndroid)
-    kotlin(BuildPlugins.kotlinAndroidExtensions)
 }
 
 android {
@@ -16,16 +15,25 @@ android {
         multiDexEnabled = true
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
     compileOptions {
-        targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
-        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -35,7 +43,11 @@ dependencies {
     implementation(Libraries.ads)
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
+    implementation(AndroidLibraries.activityKtx)
     implementation(AndroidLibraries.material)
+    implementation(AndroidLibraries.constraintLayout)
+    implementation(AndroidLibraries.liveData)
+    implementation(AndroidLibraries.viewModel)
 }
 repositories {
     mavenCentral()
