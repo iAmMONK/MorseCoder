@@ -10,8 +10,8 @@ android {
         applicationId = "com.programming.monk.morsecodetranslator"
         minSdkVersion(AndroidSdk.min)
         targetSdkVersion(AndroidSdk.target)
-        versionCode = 20
-        versionName = "2.0"
+        versionCode = 21
+        versionName = "2.0.1"
         multiDexEnabled = true
     }
 
