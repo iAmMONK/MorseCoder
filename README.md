@@ -1,5 +1,5 @@
 # MorseCoder
-Realtime morse-to-text and text-to-morse translator
+Realtime morse-to-text and text-to-morse translator<br/>
 Material UI with support for DarkMode
 
 ## About the project
