@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Переводчик Морзе</string>
-    <string name="action_settings">Опции</string>
-    <string name="message_to_morse">Введите текст</string>
-    <string name="morse_to_message">Введите код морзе</string>
     <string name="morse_label">Морзе</string>
     <string name="text_label">Текст</string>
-    <string name="btn_translate">Перевести</string>
     <string name="copied_to_clipboard_message">Скопировано !</string>
-    <string name="empty_error_message">Пожалуйста введите ваш текст</string>
-    <string name="contact_us_label">Напишите нам: monkmoldova@gmail.com</string>
-    <string name="error_hint">Нажми !</string>
-    <string name="clear_result_message">Поля очищены !</string>
 
-    <string name="share_with_title">Отправить через : </string>
+    <string name="share_with_title">Отправить через</string>
     <string name="share_empty">Сообщение не может быть пустым !</string>
+    <string name="input_hint">Начните набор текста</string>
 </resources>

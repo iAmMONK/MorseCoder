@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -40,7 +39,6 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/translation_card"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="21dp"
@@ -58,7 +56,6 @@
                     android:clipToPadding="false">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/input_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_label"
@@ -69,7 +66,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/translation_way_image"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/swap_background"
@@ -82,7 +78,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/output_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/morse_label"
@@ -95,7 +90,6 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/input_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="21dp"
@@ -111,11 +105,10 @@
                     android:minHeight="150dp">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/message_input"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:background="@android:color/transparent"
-                        android:hint="Enter your text here"
+                        android:hint="@string/input_hint"
                         android:textAlignment="gravity"
                         android:gravity="top"
                         android:inputType="textMultiLine"
@@ -137,17 +130,15 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 app:adSize="BANNER"
-                app:adUnitId="ca-app-pub-5728034123668865/7029163632" />
+                app:adUnitId="@string/admob_ad_unit_id" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/output_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="21dp"
@@ -182,7 +173,6 @@
                         app:tint="@color/colorOnSurface" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/message_output"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"

@@ -25,6 +25,10 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        forEach { build ->
+            build.resValue("string", "admob_app_id", project.property("AdMobAppId") as String)
+            build.resValue("string", "admob_ad_unit_id", project.property("AdMobAdUnitId") as String)
+        }
     }
 
     compileOptions {
