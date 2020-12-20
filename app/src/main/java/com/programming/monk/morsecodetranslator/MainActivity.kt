@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdRequest
 import com.programming.monk.morsecodetranslator.databinding.MainBinding
 
@@ -23,7 +24,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MainBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this, R.layout.main)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
@@ -84,13 +88,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeUi() {
-        viewModel.output.observe(this) {
-            binding.messageOutput.text = it
-        }
-
         viewModel.outputHasSpacing.observe(this) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.messageInput.letterSpacing = if(it) 0f else .3f
+                binding.messageInput.letterSpacing = if (it) 0f else .3f
                 binding.messageOutput.letterSpacing = if (it) .3f else 0f
             }
         }
