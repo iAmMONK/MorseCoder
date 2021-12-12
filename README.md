@@ -1,6 +1,6 @@
 # MorseCoder
 Realtime morse-to-text and text-to-morse translator<br/>
-Material UI with support for DarkMode
+Material You integration with support for DarkMode
 
 ## About the project
 This was my very first project as an Android App that was uploaded to Play Market so I decided to give it a new look and modernize the code
