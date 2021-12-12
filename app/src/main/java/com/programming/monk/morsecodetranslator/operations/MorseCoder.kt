@@ -46,7 +46,7 @@ class MorseCoder {
     fun encode(input: String): String {
         val output = StringBuilder()
         input.trim().forEach {
-            encodingMap[it]?.let { code -> output.append("$code ") }
+            encodingMap[it.lowercaseChar()]?.let { code -> output.append("$code ") }
         }
         return output.toString()
     }

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdRequest
@@ -24,17 +25,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = DataBindingUtil.setContentView(this, R.layout.main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
         binding.copyButton.setOnClickListener {
             (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
                 it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
-                Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    R.string.copied_to_clipboard_message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -48,7 +53,12 @@ class MainActivity : AppCompatActivity() {
                 sendIntent.action = Intent.ACTION_SEND
                 sendIntent.putExtra(Intent.EXTRA_TEXT, binding.messageOutput.text)
                 sendIntent.type = "text/plain"
-                startActivity(Intent.createChooser(sendIntent, getString(R.string.share_with_title)))
+                startActivity(
+                    Intent.createChooser(
+                        sendIntent,
+                        getString(R.string.share_with_title)
+                    )
+                )
             } else Toast.makeText(this, R.string.share_empty, Toast.LENGTH_SHORT).show()
         }
 
@@ -56,21 +66,29 @@ class MainActivity : AppCompatActivity() {
             binding.messageInput.requestFocus()
             binding.messageInput.post {
                 (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                        .toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+                    .showSoftInput(binding.messageInput, 0)
             }
         }
 
         binding.outputCard.setOnClickListener {
             (getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager)?.let {
                 it.setPrimaryClip(ClipData.newPlainText("Message", binding.messageOutput.text))
-                Toast.makeText(applicationContext, R.string.copied_to_clipboard_message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    R.string.copied_to_clipboard_message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         binding.translationCard.setOnClickListener {
-            binding.translationWayImage.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_swap).apply {
-                interpolator = AccelerateDecelerateInterpolator()
-            })
+            binding.translationWayImage.startAnimation(
+                AnimationUtils.loadAnimation(
+                    applicationContext,
+                    R.anim.rotate_swap
+                ).apply {
+                    interpolator = AccelerateDecelerateInterpolator()
+                })
 
             val holder = binding.inputLabel.text
             binding.inputLabel.text = binding.outputLabel.text

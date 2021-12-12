@@ -6,5 +6,5 @@ import com.programming.monk.morsecodetranslator.operations.MorseCoder
 
 class MainActivityViewModelFactory: ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = MainActivityViewModel(MorseCoder()) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>) = MainActivityViewModel(MorseCoder()) as T
 }

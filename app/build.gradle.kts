@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    buildToolsVersion(AndroidSdk.buildTools)
-    compileSdkVersion(AndroidSdk.compile)
+    buildToolsVersion = AndroidSdk.buildTools
+    compileSdk = AndroidSdk.compile
     defaultConfig {
         applicationId = "com.programming.monk.morsecodetranslator"
-        minSdkVersion(AndroidSdk.min)
-        targetSdkVersion(AndroidSdk.target)
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
         versionCode = 21
         versionName = "2.0.1"
         multiDexEnabled = true
@@ -33,8 +33,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_1_8
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
@@ -53,9 +53,11 @@ dependencies {
     implementation(AndroidLibraries.constraintLayout)
     implementation(AndroidLibraries.liveData)
     implementation(AndroidLibraries.viewModel)
+    implementation(AndroidLibraries.work)
+    implementation(AndroidLibraries.splash)
 }
+
 repositories {
     mavenCentral()
     google()
-    jcenter()
 }

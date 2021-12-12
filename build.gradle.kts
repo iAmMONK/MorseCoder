@@ -3,7 +3,7 @@ buildscript {
     repositories {
         maven { url = uri("https://jitpack.io") }
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -12,11 +12,10 @@ buildscript {
     }
 }
 
-
 repositories {
     maven { url = uri("https://jitpack.io") }
     google()
-    jcenter()
+    mavenCentral()
 }
 
 tasks.register("clean", Delete::class) {
