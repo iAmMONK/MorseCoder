@@ -75,6 +75,7 @@
                             android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/translation_way_image"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -99,6 +100,7 @@
                             android:textSize="20sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/translation_way_image"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -128,7 +130,7 @@
                             android:hint="@string/input_hint"
                             android:inputType="textMultiLine"
                             android:textAlignment="gravity"
-                            android:textColor="@color/colorOnPrimary"
+                            android:textColor="@color/colorOnColorless"
                             app:layout_constraintBottom_toTopOf="@id/delete_button"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
